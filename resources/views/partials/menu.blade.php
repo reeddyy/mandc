@@ -15,6 +15,36 @@
                 {{ trans('global.dashboard') }}
             </a>
         </li>
+        @can('membership_access')
+            <li class="c-sidebar-nav-item">
+                <a href="{{ route("admin.memberships.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/memberships") || request()->is("admin/memberships/*") ? "c-active" : "" }}">
+                    <i class="fa-fw fas fa-users c-sidebar-nav-icon">
+
+                    </i>
+                    {{ trans('cruds.membership.title') }}
+                </a>
+            </li>
+        @endcan
+        @can('ada_access')
+            <li class="c-sidebar-nav-item">
+                <a href="{{ route("admin.adas.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/adas") || request()->is("admin/adas/*") ? "c-active" : "" }}">
+                    <i class="fa-fw fas fa-award c-sidebar-nav-icon">
+
+                    </i>
+                    {{ trans('cruds.ada.title') }}
+                </a>
+            </li>
+        @endcan
+        @can('certificate_access')
+            <li class="c-sidebar-nav-item">
+                <a href="{{ route("admin.certificates.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/certificates") || request()->is("admin/certificates/*") ? "c-active" : "" }}">
+                    <i class="fa-fw fas fa-certificate c-sidebar-nav-icon">
+
+                    </i>
+                    {{ trans('cruds.certificate.title') }}
+                </a>
+            </li>
+        @endcan
         @can('user_management_access')
             <li class="c-sidebar-nav-dropdown {{ request()->is("admin/permissions*") ? "c-show" : "" }} {{ request()->is("admin/roles*") ? "c-show" : "" }} {{ request()->is("admin/users*") ? "c-show" : "" }} {{ request()->is("admin/audit-logs*") ? "c-show" : "" }}">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">
@@ -65,36 +95,6 @@
                         </li>
                     @endcan
                 </ul>
-            </li>
-        @endcan
-        @can('membership_access')
-            <li class="c-sidebar-nav-item">
-                <a href="{{ route("admin.memberships.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/memberships") || request()->is("admin/memberships/*") ? "c-active" : "" }}">
-                    <i class="fa-fw fas fa-users c-sidebar-nav-icon">
-
-                    </i>
-                    {{ trans('cruds.membership.title') }}
-                </a>
-            </li>
-        @endcan
-        @can('ada_access')
-            <li class="c-sidebar-nav-item">
-                <a href="{{ route("admin.adas.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/adas") || request()->is("admin/adas/*") ? "c-active" : "" }}">
-                    <i class="fa-fw fas fa-award c-sidebar-nav-icon">
-
-                    </i>
-                    {{ trans('cruds.ada.title') }}
-                </a>
-            </li>
-        @endcan
-        @can('certificate_access')
-            <li class="c-sidebar-nav-item">
-                <a href="{{ route("admin.certificates.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/certificates") || request()->is("admin/certificates/*") ? "c-active" : "" }}">
-                    <i class="fa-fw fas fa-certificate c-sidebar-nav-icon">
-
-                    </i>
-                    {{ trans('cruds.certificate.title') }}
-                </a>
             </li>
         @endcan
         @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
