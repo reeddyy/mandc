@@ -12,20 +12,67 @@ use App\Models\Membership;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class AdaController extends Controller
 {
     use CsvImportTrait;
 
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('ada_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $adas = Ada::with(['member_name'])->get();
+        if ($request->ajax()) {
+            $query = Ada::with(['member_name'])->select(sprintf('%s.*', (new Ada())->table));
+            $table = Datatables::of($query);
+
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate = 'ada_show';
+                $editGate = 'ada_edit';
+                $deleteGate = 'ada_delete';
+                $crudRoutePart = 'adas';
+
+                return view('partials.datatablesActions', compact(
+                'viewGate',
+                'editGate',
+                'deleteGate',
+                'crudRoutePart',
+                'row'
+            ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->addColumn('member_name_member_name', function ($row) {
+                return $row->member_name ? $row->member_name->member_name : '';
+            });
+
+            $table->editColumn('award_name', function ($row) {
+                return $row->award_name ? $row->award_name : '';
+            });
+
+            $table->editColumn('awarding_body', function ($row) {
+                return $row->awarding_body ? $row->awarding_body : '';
+            });
+            $table->editColumn('award_status', function ($row) {
+                return $row->award_status ? $row->award_status : '';
+            });
+            $table->editColumn('note', function ($row) {
+                return $row->note ? $row->note : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'member_name']);
+
+            return $table->make(true);
+        }
 
         $memberships = Membership::get();
 
-        return view('admin.adas.index', compact('adas', 'memberships'));
+        return view('admin.adas.index', compact('memberships'));
     }
 
     public function create()

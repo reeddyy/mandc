@@ -50,6 +50,16 @@
                 <span class="help-block">{{ trans('cruds.membership.fields.member_name_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="member_email">{{ trans('cruds.membership.fields.member_email') }}</label>
+                <input class="form-control {{ $errors->has('member_email') ? 'is-invalid' : '' }}" type="email" name="member_email" id="member_email" value="{{ old('member_email') }}">
+                @if($errors->has('member_email'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('member_email') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.membership.fields.member_email_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label for="date_awarded">{{ trans('cruds.membership.fields.date_awarded') }}</label>
                 <input class="form-control date {{ $errors->has('date_awarded') ? 'is-invalid' : '' }}" type="text" name="date_awarded" id="date_awarded" value="{{ old('date_awarded') }}">
                 @if($errors->has('date_awarded'))
