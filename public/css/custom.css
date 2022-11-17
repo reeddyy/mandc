@@ -130,3 +130,29 @@ table.dataTable thead .sorting_desc {
 .custom-select.form-control-sm {
     padding: 0.25rem 1.5rem;
 }
+
+
+.select2-results__option .wrap:before{
+    font-family:fontAwesome;
+    color:#999;
+    content:"\f096";
+    width:25px;
+    height:25px;
+    padding-right: 10px;
+
+}
+.select2-results__option[aria-selected=true] .wrap:before{
+    content:"\f14a";
+}
+
+/* not required css */
+
+.row
+{
+  padding: 10px;
+}
+
+.select2-multiple, .select2-multiple2
+{
+  width: 50%
+}
