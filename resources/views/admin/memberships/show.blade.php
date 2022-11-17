@@ -57,6 +57,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.membership.fields.member_email') }}
+                        </th>
+                        <td>
+                            {{ $membership->member_email }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.membership.fields.date_awarded') }}
                         </th>
                         <td>

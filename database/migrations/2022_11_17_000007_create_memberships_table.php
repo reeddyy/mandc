@@ -14,6 +14,7 @@ class CreateMembershipsTable extends Migration
             $table->string('member_reference')->unique();
             $table->string('member_class')->nullable();
             $table->string('member_name')->nullable();
+            $table->string('member_email')->nullable();
             $table->date('date_awarded')->nullable();
             $table->date('membership_validity')->nullable();
             $table->string('awarding_body')->nullable();
