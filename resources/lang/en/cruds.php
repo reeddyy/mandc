@@ -177,6 +177,8 @@ return [
             'updated_at_helper'          => ' ',
             'deleted_at'                 => 'Deleted at',
             'deleted_at_helper'          => ' ',
+            'member_email'               => 'Member Email',
+            'member_email_helper'        => ' ',
         ],
     ],
 ];

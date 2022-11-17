@@ -30,6 +30,7 @@ class Membership extends Model
         'member_reference',
         'member_class',
         'member_name',
+        'member_email',
         'date_awarded',
         'membership_validity',
         'awarding_body',
