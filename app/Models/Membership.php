@@ -43,6 +43,11 @@ class Membership extends Model
         'deleted_at',
     ];
 
+    public function memberNameAdas()
+    {
+        return $this->hasMany(Ada::class, 'member_name_id', 'id');
+    }
+
     public function getDateAwardedAttribute($value)
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;

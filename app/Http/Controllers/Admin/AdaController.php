@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyAdaRequest;
 use App\Http\Requests\StoreAdaRequest;
 use App\Http\Requests\UpdateAdaRequest;
 use App\Models\Ada;
+use App\Models\Membership;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,7 @@ class AdaController extends Controller
         abort_if(Gate::denies('ada_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Ada::query()->select(sprintf('%s.*', (new Ada())->table));
+            $query = Ada::with(['member_name'])->select(sprintf('%s.*', (new Ada())->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -46,21 +47,16 @@ class AdaController extends Controller
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
-            $table->editColumn('member_reference', function ($row) {
-                return $row->member_reference ? $row->member_reference : '';
+            $table->addColumn('member_name_member_name', function ($row) {
+                return $row->member_name ? $row->member_name->member_name : '';
             });
-            $table->editColumn('member_name', function ($row) {
-                return $row->member_name ? $row->member_name : '';
-            });
+
             $table->editColumn('award_name', function ($row) {
                 return $row->award_name ? $row->award_name : '';
             });
 
             $table->editColumn('awarding_body', function ($row) {
                 return $row->awarding_body ? $row->awarding_body : '';
-            });
-            $table->editColumn('award_reference', function ($row) {
-                return $row->award_reference ? $row->award_reference : '';
             });
             $table->editColumn('award_status', function ($row) {
                 return $row->award_status ? $row->award_status : '';
@@ -69,19 +65,23 @@ class AdaController extends Controller
                 return $row->note ? $row->note : '';
             });
 
-            $table->rawColumns(['actions', 'placeholder']);
+            $table->rawColumns(['actions', 'placeholder', 'member_name']);
 
             return $table->make(true);
         }
 
-        return view('admin.adas.index');
+        $memberships = Membership::get();
+
+        return view('admin.adas.index', compact('memberships'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('ada_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.adas.create');
+        $member_names = Membership::pluck('member_name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.adas.create', compact('member_names'));
     }
 
     public function store(StoreAdaRequest $request)
@@ -95,7 +95,11 @@ class AdaController extends Controller
     {
         abort_if(Gate::denies('ada_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.adas.edit', compact('ada'));
+        $member_names = Membership::pluck('member_name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $ada->load('member_name');
+
+        return view('admin.adas.edit', compact('ada', 'member_names'));
     }
 
     public function update(UpdateAdaRequest $request, Ada $ada)
@@ -108,6 +112,8 @@ class AdaController extends Controller
     public function show(Ada $ada)
     {
         abort_if(Gate::denies('ada_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $ada->load('member_name');
 
         return view('admin.adas.show', compact('ada'));
     }

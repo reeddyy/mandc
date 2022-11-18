@@ -11,18 +11,12 @@
             @method('PUT')
             @csrf
             <div class="form-group">
-                <label for="member_reference">{{ trans('cruds.ada.fields.member_reference') }}</label>
-                <input class="form-control {{ $errors->has('member_reference') ? 'is-invalid' : '' }}" type="text" name="member_reference" id="member_reference" value="{{ old('member_reference', $ada->member_reference) }}">
-                @if($errors->has('member_reference'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('member_reference') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.ada.fields.member_reference_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="member_name">{{ trans('cruds.ada.fields.member_name') }}</label>
-                <input class="form-control {{ $errors->has('member_name') ? 'is-invalid' : '' }}" type="text" name="member_name" id="member_name" value="{{ old('member_name', $ada->member_name) }}">
+                <label class="required" for="member_name_id">{{ trans('cruds.ada.fields.member_name') }}</label>
+                <select class="form-control select2 {{ $errors->has('member_name') ? 'is-invalid' : '' }}" name="member_name_id" id="member_name_id" required>
+                    @foreach($member_names as $id => $entry)
+                        <option value="{{ $id }}" {{ (old('member_name_id') ? old('member_name_id') : $ada->member_name->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
                 @if($errors->has('member_name'))
                     <div class="invalid-feedback">
                         {{ $errors->first('member_name') }}
@@ -69,16 +63,6 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.ada.fields.awarding_body_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="award_reference">{{ trans('cruds.ada.fields.award_reference') }}</label>
-                <input class="form-control {{ $errors->has('award_reference') ? 'is-invalid' : '' }}" type="text" name="award_reference" id="award_reference" value="{{ old('award_reference', $ada->award_reference) }}">
-                @if($errors->has('award_reference'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('award_reference') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.ada.fields.award_reference_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="award_status">{{ trans('cruds.ada.fields.award_status') }}</label>
