@@ -17,9 +17,22 @@ class StoreAdaRequest extends FormRequest
     public function rules()
     {
         return [
-            'member_name_id' => [
+            'member_reference' => [
+                'string',
+                'nullable',
+            ],
+            'member_name' => [
+                'string',
+                'nullable',
+            ],
+            'award_status' => [
+                'string',
+                'nullable',
+            ],
+            'award_reference' => [
+                'string',
                 'required',
-                'integer',
+                'unique:adas',
             ],
             'award_name' => [
                 'string',
@@ -34,10 +47,6 @@ class StoreAdaRequest extends FormRequest
                 'nullable',
             ],
             'awarding_body' => [
-                'string',
-                'nullable',
-            ],
-            'award_status' => [
                 'string',
                 'nullable',
             ],
