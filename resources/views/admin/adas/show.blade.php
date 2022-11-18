@@ -25,18 +25,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.ada.fields.member_reference') }}
-                        </th>
-                        <td>
-                            {{ $ada->member_reference }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.ada.fields.member_name') }}
                         </th>
                         <td>
-                            {{ $ada->member_name }}
+                            {{ $ada->member_name->member_name ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -69,14 +61,6 @@
                         </th>
                         <td>
                             {{ $ada->awarding_body }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.ada.fields.award_reference') }}
-                        </th>
-                        <td>
-                            {{ $ada->award_reference }}
                         </td>
                     </tr>
                     <tr>
