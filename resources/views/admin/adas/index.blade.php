@@ -29,6 +29,9 @@
                         {{ trans('cruds.ada.fields.id') }}
                     </th>
                     <th>
+                        {{ trans('cruds.ada.fields.member_reference') }}
+                    </th>
+                    <th>
                         {{ trans('cruds.ada.fields.member_name') }}
                     </th>
                     <th>
@@ -42,6 +45,9 @@
                     </th>
                     <th>
                         {{ trans('cruds.ada.fields.awarding_body') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.ada.fields.award_reference') }}
                     </th>
                     <th>
                         {{ trans('cruds.ada.fields.award_status') }}
@@ -60,12 +66,10 @@
                         <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
-                        <select class="search">
-                            <option value>{{ trans('global.all') }}</option>
-                            @foreach($memberships as $key => $item)
-                                <option value="{{ $item->member_name }}">{{ $item->member_name }}</option>
-                            @endforeach
-                        </select>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
                         <input class="search" type="text" placeholder="{{ trans('global.search') }}">
@@ -73,6 +77,9 @@
                     <td>
                     </td>
                     <td>
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
                         <input class="search" type="text" placeholder="{{ trans('global.search') }}">
@@ -139,11 +146,13 @@
     columns: [
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
-{ data: 'member_name_member_name', name: 'member_name.member_name' },
+{ data: 'member_reference', name: 'member_reference' },
+{ data: 'member_name', name: 'member_name' },
 { data: 'award_name', name: 'award_name' },
 { data: 'date_awarded', name: 'date_awarded' },
 { data: 'award_validity', name: 'award_validity' },
 { data: 'awarding_body', name: 'awarding_body' },
+{ data: 'award_reference', name: 'award_reference' },
 { data: 'award_status', name: 'award_status' },
 { data: 'note', name: 'note' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }

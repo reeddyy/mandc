@@ -26,22 +26,19 @@ class Ada extends Model
     ];
 
     protected $fillable = [
-        'member_name_id',
+        'member_reference',
+        'member_name',
         'award_name',
         'date_awarded',
         'award_validity',
         'awarding_body',
+        'award_reference',
         'award_status',
         'note',
         'created_at',
         'updated_at',
         'deleted_at',
     ];
-
-    public function member_name()
-    {
-        return $this->belongsTo(Membership::class, 'member_name_id');
-    }
 
     public function getDateAwardedAttribute($value)
     {

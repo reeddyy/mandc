@@ -10,10 +10,13 @@ class CreateAdasTable extends Migration
     {
         Schema::create('adas', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('member_reference')->nullable();
+            $table->string('member_name')->nullable();
             $table->string('award_name')->nullable();
             $table->date('date_awarded')->nullable();
             $table->date('award_validity')->nullable();
             $table->string('awarding_body')->nullable();
+            $table->string('award_reference')->nullable();
             $table->string('award_status')->nullable();
             $table->longText('note')->nullable();
             $table->timestamps();
