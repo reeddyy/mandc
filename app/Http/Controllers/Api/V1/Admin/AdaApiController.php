@@ -17,7 +17,7 @@ class AdaApiController extends Controller
     {
         abort_if(Gate::denies('ada_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new AdaResource(Ada::with(['member_name'])->get());
+        return new AdaResource(Ada::all());
     }
 
     public function store(StoreAdaRequest $request)
@@ -33,7 +33,7 @@ class AdaApiController extends Controller
     {
         abort_if(Gate::denies('ada_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new AdaResource($ada->load(['member_name']));
+        return new AdaResource($ada);
     }
 
     public function update(UpdateAdaRequest $request, Ada $ada)

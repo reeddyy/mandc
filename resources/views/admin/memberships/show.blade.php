@@ -130,22 +130,6 @@
     </div>
 </div>
 
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.relatedData') }}
-    </div>
-    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
-        <li class="nav-item">
-            <a class="nav-link" href="#member_name_adas" role="tab" data-toggle="tab">
-                {{ trans('cruds.ada.title') }}
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="member_name_adas">
-            @includeIf('admin.memberships.relationships.memberNameAdas', ['adas' => $membership->memberNameAdas])
-        </div>
-    </div>
-</div>
+
 
 @endsection

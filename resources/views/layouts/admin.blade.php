@@ -146,6 +146,14 @@
     },
     order: [],
     scrollX: true,
+    "fnInitComplete": function(){
+        // Enable THEAD scroll bars
+        $('.dataTables_scrollHead').css('overflow', 'auto');
+        // Sync THEAD scrolling with TBODY
+        $('.dataTables_scrollHead').on('scroll', function () {
+            $('.dataTables_scrollBody').scrollLeft($(this).scrollLeft());
+        });                    
+    },
     pageLength: 100,
     dom: 'lBfrtip<"actions">',
     buttons: [
