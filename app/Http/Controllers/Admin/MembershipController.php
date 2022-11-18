@@ -118,8 +118,6 @@ class MembershipController extends Controller
     {
         abort_if(Gate::denies('membership_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $membership->load('memberNameAdas');
-
         return view('admin.memberships.show', compact('membership'));
     }
 
