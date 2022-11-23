@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Traits;
 
+use Carbon\Carbon;
 use \SpreadsheetReader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -32,6 +33,7 @@ trait CsvImportTrait
                 }
 
                 $tmp = [];
+
                 foreach ($fields as $header => $k) {
                     if (isset($row[$k])) {
                         $tmp[$header] = $row[$k];
@@ -45,8 +47,127 @@ trait CsvImportTrait
 
             $for_insert = array_chunk($insert, 100);
 
-            foreach ($for_insert as $insert_item) {
-                $model::insert($insert_item);
+            $for_insert_without_blanks = array();
+
+            switch ($model) {
+                case 'App\Models\Certificate':
+                    foreach ($for_insert as $insert_item) {
+                        foreach ($insert_item as $k => $item) {
+                            foreach ($item as $key => $value) {
+                                if (isset($item["credential_reference"]) && $item["credential_reference"] != "") {
+                                    if (isset($item["date_awarded"])) {
+                                        if (str_contains($item["date_awarded"], "/")) {
+                                            $item["date_awarded"] = Carbon::createFromFormat('d/m/Y', $item["date_awarded"])->format('Y-m-d');
+                                        } else {
+                                            $item["date_awarded"] = Carbon::parse($item["date_awarded"])->format('Y-m-d');
+                                        }
+                                        if ($value == "") {
+                                            unset($item[$key]);
+                                        }
+                                    }
+                                } else {
+                                    session()->flash('message', 'Credential reference is mandatory! Please check csv and try again.');
+
+                                    return redirect($request->input('redirect'));
+                                }
+                            }
+                            array_push($for_insert_without_blanks, $item);
+                        }
+                    }
+                    $for_insert_without_blanks = array_chunk($for_insert_without_blanks, 100);
+                    foreach ($for_insert_without_blanks as $insert_item) {
+                        $model::upsert(
+                            $insert_item,
+                            ['credential_reference']
+                        );
+                    }
+                    break;
+
+                case 'App\Models\Membership':
+                    foreach ($for_insert as $insert_item) {
+                        foreach ($insert_item as $k => $item) {
+                            foreach ($item as $key => $value) {
+                                if (isset($item["member_reference"]) && $item["member_reference"] != "") {
+                                    if (isset($item["date_awarded"])) {
+                                        if (str_contains($item["date_awarded"], "/")) {
+                                            $item["date_awarded"] = Carbon::createFromFormat('d/m/Y', $item["date_awarded"])->format('Y-m-d');
+                                        } else {
+                                            $item["date_awarded"] = Carbon::parse($item["date_awarded"])->format('Y-m-d');
+                                        }
+
+                                        if (str_contains($item["membership_validity"], "/")) {
+                                            $item["membership_validity"] = Carbon::createFromFormat('d/m/Y', $item["membership_validity"])->format('Y-m-d');
+                                        } else {
+                                            $item["membership_validity"] = Carbon::parse($item["membership_validity"])->format('Y-m-d');
+                                        }
+
+                                        if ($value == "") {
+                                            unset($item[$key]);
+                                        }
+                                    }
+                                } else {
+                                    session()->flash('message', 'Member reference is mandatory! Please check csv and try again.');
+
+                                    return redirect($request->input('redirect'));
+                                }
+                            }
+                            array_push($for_insert_without_blanks, $item);
+                        }
+                    }
+                    $for_insert_without_blanks = array_chunk($for_insert_without_blanks, 100);
+                    foreach ($for_insert_without_blanks as $insert_item) {
+                        $model::upsert(
+                            $insert_item,
+                            ['member_reference']
+                        );
+                    }
+                    break;
+
+                case 'App\Models\Ada':
+                    foreach ($for_insert as $insert_item) {
+                        foreach ($insert_item as $k => $item) {
+                            foreach ($item as $key => $value) {
+                                if (isset($item["award_reference"]) && $item["award_reference"] != "") {
+                                    if (isset($item["date_awarded"])) {
+                                        if (str_contains($item["date_awarded"], "/")) {
+                                            $item["date_awarded"] = Carbon::createFromFormat('d/m/Y', $item["date_awarded"])->format('Y-m-d');
+                                        } else {
+                                            $item["date_awarded"] = Carbon::parse($item["date_awarded"])->format('Y-m-d');
+                                        }
+
+                                        if (str_contains($item["award_validity"], "/")) {
+                                            $item["award_validity"] = Carbon::createFromFormat('d/m/Y', $item["award_validity"])->format('Y-m-d');
+                                        } else {
+                                            $item["award_validity"] = Carbon::parse($item["award_validity"])->format('Y-m-d');
+                                        }
+
+                                        if ($value == "") {
+                                            unset($item[$key]);
+                                        }
+                                    }
+                                } else {
+                                    session()->flash('message', 'Member reference is mandatory! Please check csv and try again.');
+
+                                    return redirect($request->input('redirect'));
+                                }
+                            }
+                            array_push($for_insert_without_blanks, $item);
+                        }
+                    }
+                    $for_insert_without_blanks = array_chunk($for_insert_without_blanks, 100);
+                    foreach ($for_insert_without_blanks as $insert_item) {
+                        $model::upsert(
+                            $insert_item,
+                            ['award_reference']
+                        );
+                    }
+                    break;
+
+                default:
+                    foreach ($for_insert as $insert_item) {
+                        $model::insert($insert_item);
+                    }
+                    break;
             }
 
             $rows  = count($insert);
