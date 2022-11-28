@@ -36,6 +36,28 @@ class MembershipApiController extends Controller
         return new MembershipResource($membership);
     }
 
+    public function getMembershipDetails($member_reference)
+    {
+        if (is_numeric($member_reference)) {
+            $membership = Membership::with('adas')->where('member_reference', $member_reference)->first();
+            if (!empty($membership)) {
+                return new MembershipResource($membership);
+            } else {
+                $data = array([
+                    "status" => "404",
+                    "message" => "No data found!"
+                ]);
+                return new MembershipResource($data);
+            }
+        } else {
+            $data = array([
+                "status" => "failed",
+                "message" => "Invalid member reference. Please enter a valid number!"
+            ]);
+            return new MembershipResource($data);
+        }
+    }
+
     public function update(UpdateMembershipRequest $request, Membership $membership)
     {
         $membership->update($request->all());

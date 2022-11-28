@@ -63,6 +63,11 @@ class Membership extends Model
         $this->attributes['membership_validity'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
+    public function adas()
+    {
+        return $this->hasMany(Ada::class, 'member_reference', 'member_reference');
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
