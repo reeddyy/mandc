@@ -36,6 +36,14 @@ class CertificateApiController extends Controller
         return new CertificateResource($certificate);
     }
 
+    public function getCertificateDetails($credential_reference)
+    {
+        if (is_numeric($credential_reference)) {
+            $membership = Certificate::where('credential_reference', $credential_reference)->first();
+            return new CertificateResource($membership);
+        }
+    }
+
     public function update(UpdateCertificateRequest $request, Certificate $certificate)
     {
         $certificate->update($request->all());
