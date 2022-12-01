@@ -26,7 +26,7 @@ class UpdateMemberStatus
                     }
                 }
                 Membership::whereIn('id', $expired_members)
-                    ->update(['member_status' => "Expired"]);
+                    ->update(['member_status' => "Active"]);
 
                 Membership::whereIn('id', $valid_members)
                     ->update(['member_status' => "Valid"]);

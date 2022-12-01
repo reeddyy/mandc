@@ -21,8 +21,9 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->call(function () {
             (new UpdateMemberStatus())->updateStatus();
-        })->dailyAt('12:01');
-        // ->timezone('Kolkata/India');
+        })->dailyAt('12:01')
+         ->timezone('Asia/Singapore');
+
     }
 
     /**
