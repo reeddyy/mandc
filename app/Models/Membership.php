@@ -26,7 +26,8 @@ class Membership extends Model
                 if ($model->membership_validity < Carbon::now()->format('Y-m-d')) {
                     $model->member_status = "Expired";
                 } else {
-                    $model->member_status = "Valid";
+                    $model->member_status = "Active";
+                    
                 }
             }
         });
