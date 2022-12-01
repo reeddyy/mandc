@@ -22,7 +22,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             (new UpdateMemberStatus())->updateStatus();
         })->dailyAt('12:01')
-         ->timezone('Asia/Singapore');
+         ->config('app.timezone');
 
     }
 
