@@ -27,6 +27,7 @@ class Membership extends Model
                     $model->member_status = "Expired";
                 } else {
                     $model->member_status = "Active";
+                    
                 }
             }
         });
