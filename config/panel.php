@@ -7,4 +7,5 @@ return [
     'available_languages' => [
         'en' => 'English',
     ],
+    'timezone'            => 'Asia/Singapore',
 ];
