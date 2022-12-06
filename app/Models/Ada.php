@@ -17,6 +17,21 @@ class Ada extends Model
 
     public $table = 'adas';
 
+    public static function boot()
+    {
+        parent::boot();
+
+        self::saving(function ($model) {
+            if ($model->award_validity != null) {
+                if ($model->award_validity < Carbon::now()->format('Y-m-d')) {
+                    $model->award_status = "Expired";
+                } else {
+                    $model->award_status = "Active";
+                }
+            }
+        });
+    }
+
     protected $dates = [
         'date_awarded',
         'award_validity',
