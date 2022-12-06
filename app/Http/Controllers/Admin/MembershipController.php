@@ -35,12 +35,12 @@ class MembershipController extends Controller
                 $crudRoutePart = 'memberships';
 
                 return view('partials.datatablesActions', compact(
-                    'viewGate',
-                    'editGate',
-                    'deleteGate',
-                    'crudRoutePart',
-                    'row'
-                ));
+                'viewGate',
+                'editGate',
+                'deleteGate',
+                'crudRoutePart',
+                'row'
+            ));
             });
 
             $table->editColumn('id', function ($row) {
