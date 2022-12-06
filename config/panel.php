@@ -7,5 +7,5 @@ return [
     'available_languages' => [
         'en' => 'English',
     ],
-    'timezone'            => 'Asia/Singapore',
+    'timezone' => env('APP_TIMEZONE', 'UTC'),
 ];
