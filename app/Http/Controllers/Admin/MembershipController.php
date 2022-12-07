@@ -75,7 +75,7 @@ class MembershipController extends Controller
                 return $row->digital_member_card ? $row->digital_member_card : '';
             });
             $table->editColumn('note', function ($row) {
-                return $row->note ? $row->note : '';
+                return $row->note;
             });
 
             $table->rawColumns(['actions', 'placeholder']);
