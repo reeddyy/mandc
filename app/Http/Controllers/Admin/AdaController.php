@@ -35,12 +35,12 @@ class AdaController extends Controller
                 $crudRoutePart = 'adas';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -66,7 +66,7 @@ class AdaController extends Controller
                 return $row->award_status ? $row->award_status : '';
             });
             $table->editColumn('note', function ($row) {
-                return $row->note ? $row->note : '';
+                return $row->note;
             });
 
             $table->rawColumns(['actions', 'placeholder']);
