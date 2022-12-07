@@ -66,10 +66,10 @@ class MembershipController extends Controller
                 return $row->awarding_body ? $row->awarding_body : '';
             });
             $table->editColumn('training_credits', function ($row) {
-                return $row->training_credits ? $row->training_credits : '';
+                return $row->training_credits;
             });
             $table->editColumn('support_funds', function ($row) {
-                return $row->support_funds ? $row->support_funds : '';
+                return $row->support_funds;
             });
             $table->editColumn('digital_member_card', function ($row) {
                 return $row->digital_member_card ? $row->digital_member_card : '';
