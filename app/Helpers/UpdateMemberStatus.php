@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Ada;
 use App\Models\Membership;
 use Carbon\Carbon;
 
@@ -30,6 +31,24 @@ class UpdateMemberStatus
 
                 Membership::whereIn('id', $active_members)
                     ->update(['member_status' => "Active"]);
+            });
+
+        Ada::select('id', 'award_status', 'award_validity')
+            ->chunk(50, function ($awards) {
+                $expired_awards = array();
+                $active_awards = array();
+                foreach ($awards as $award) {
+                    if ($award->award_validity < Carbon::now()->format('Y-m-d')) {
+                        array_push($expired_awards, $award->id);
+                    } else {
+                        array_push($active_awards, $award->id);
+                    }
+                }
+                Ada::whereIn('id', $expired_awards)
+                    ->update(['award_status' => "Expired"]);
+
+                Ada::whereIn('id', $active_awards)
+                    ->update(['award_status' => "Active"]);
             });
     }
 }
