@@ -21,9 +21,13 @@ class UpdateMemberStatus
                 $active_members = array();
                 foreach ($members as $member) {
                     if ($member->membership_validity < Carbon::now()->format('Y-m-d')) {
-                        array_push($expired_members, $member->id);
+                        if ($member->member_status != "Expired") {
+                            array_push($expired_members, $member->id);
+                        }
                     } else {
-                        array_push($active_members, $member->id);
+                        if ($member->member_status != "Active") {
+                            array_push($active_members, $member->id);
+                        }
                     }
                 }
                 Membership::whereIn('id', $expired_members)
@@ -39,9 +43,13 @@ class UpdateMemberStatus
                 $active_awards = array();
                 foreach ($awards as $award) {
                     if ($award->award_validity < Carbon::now()->format('Y-m-d')) {
-                        array_push($expired_awards, $award->id);
+                        if ($award->award_status != "Expired") {
+                            array_push($expired_awards, $award->id);
+                        }
                     } else {
-                        array_push($active_awards, $award->id);
+                        if ($award->award_status != "Active") {
+                            array_push($active_awards, $award->id);
+                        }
                     }
                 }
                 Ada::whereIn('id', $expired_awards)
