@@ -38,7 +38,7 @@ class MembershipApiController extends Controller
 
     public function getMembershipDetails($member_reference)
     {
-        if (is_numeric($member_reference)) {
+        if ($member_reference) {
             $membership = Membership::with('adas')->where('member_reference', $member_reference)->first();
             if (!empty($membership)) {
                 return (new MembershipResource($membership))
