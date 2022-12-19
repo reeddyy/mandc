@@ -38,7 +38,7 @@ class CertificateApiController extends Controller
 
     public function verifyCredential($credential_reference)
     {
-        if (is_numeric($credential_reference)) {
+        if ($credential_reference) {
             $certificate = Certificate::where('credential_reference', $credential_reference)->first();
             if (!empty($certificate)) {
                 return (new CertificateResource($certificate))
