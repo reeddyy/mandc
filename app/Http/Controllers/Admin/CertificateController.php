@@ -35,12 +35,12 @@ class CertificateController extends Controller
                 $crudRoutePart = 'certificates';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -60,7 +60,7 @@ class CertificateController extends Controller
                 return $row->awarding_body ? $row->awarding_body : '';
             });
             $table->editColumn('note', function ($row) {
-                return $row->note ? $row->note : '';
+                return $row->note;
             });
 
             $table->rawColumns(['actions', 'placeholder']);

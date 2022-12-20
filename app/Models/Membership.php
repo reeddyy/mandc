@@ -17,6 +17,21 @@ class Membership extends Model
 
     public $table = 'memberships';
 
+    public static function boot()
+    {
+        parent::boot();
+
+        self::saving(function ($model) {
+            if ($model->membership_validity != null) {
+                if ($model->membership_validity < Carbon::now()->format('Y-m-d')) {
+                    $model->member_status = "Expired";
+                } else {
+                    $model->member_status = "Active";
+                }
+            }
+        });
+    }
+
     protected $dates = [
         'date_awarded',
         'membership_validity',
@@ -63,8 +78,18 @@ class Membership extends Model
         $this->attributes['membership_validity'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
+    public function adas()
+    {
+        return $this->hasMany(Ada::class, 'member_reference', 'member_reference');
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function updateStatus($membership_validity)
+    {
+        # code...
     }
 }

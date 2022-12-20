@@ -36,6 +36,32 @@ class CertificateApiController extends Controller
         return new CertificateResource($certificate);
     }
 
+    public function verifyCredential($credential_reference)
+    {
+        if ($credential_reference) {
+            $certificate = Certificate::where('credential_reference', $credential_reference)->first();
+            if (!empty($certificate)) {
+                return (new CertificateResource($certificate))
+                    ->response()
+                    ->setStatusCode(Response::HTTP_OK);
+            } else {
+                $data = array([
+                    "message" => "No data found!"
+                ]);
+                return (new CertificateResource($data))
+                    ->response()
+                    ->setStatusCode(Response::HTTP_NOT_FOUND);
+            }
+        } else {
+            $data = array([
+                "message" => "Invalid credential reference. Please enter a valid number!"
+            ]);
+            return (new CertificateResource($data))
+                ->response()
+                ->setStatusCode(Response::HTTP_BAD_REQUEST);
+        }
+    }
+
     public function update(UpdateCertificateRequest $request, Certificate $certificate)
     {
         $certificate->update($request->all());

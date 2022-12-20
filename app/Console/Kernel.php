@@ -2,8 +2,11 @@
 
 namespace App\Console;
 
+use App\Helpers\UpdateMemberStatus;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,6 +19,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            (new UpdateMemberStatus())->updateStatus();
+        })->dailyAt('00:01')
+            ->timezone(config('panel.timezone'));
     }
 
     /**

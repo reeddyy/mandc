@@ -35,12 +35,12 @@ class MembershipController extends Controller
                 $crudRoutePart = 'memberships';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -66,16 +66,16 @@ class MembershipController extends Controller
                 return $row->awarding_body ? $row->awarding_body : '';
             });
             $table->editColumn('training_credits', function ($row) {
-                return $row->training_credits ? $row->training_credits : '';
+                return $row->training_credits;
             });
             $table->editColumn('support_funds', function ($row) {
-                return $row->support_funds ? $row->support_funds : '';
+                return $row->support_funds;
             });
             $table->editColumn('digital_member_card', function ($row) {
                 return $row->digital_member_card ? $row->digital_member_card : '';
             });
             $table->editColumn('note', function ($row) {
-                return $row->note ? $row->note : '';
+                return $row->note;
             });
 
             $table->rawColumns(['actions', 'placeholder']);
